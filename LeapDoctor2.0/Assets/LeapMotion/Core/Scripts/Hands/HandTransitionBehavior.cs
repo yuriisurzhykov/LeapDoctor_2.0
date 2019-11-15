@@ -31,11 +31,11 @@ namespace Leap.Unity {
         return;
       }
 
-      /*handModelBase.OnBegin -= HandReset;
+      handModelBase.OnBegin -= HandReset;
       handModelBase.OnBegin += HandReset;
 
       handModelBase.OnFinish -= HandFinish;
-      handModelBase.OnFinish += HandFinish;*/
+      handModelBase.OnFinish += HandFinish;
     }
 
     protected virtual void OnDestroy() {

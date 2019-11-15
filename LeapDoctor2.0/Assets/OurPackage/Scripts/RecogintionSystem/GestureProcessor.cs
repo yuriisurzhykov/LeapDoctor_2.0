@@ -45,11 +45,11 @@ namespace LeapGR
         #endregion
 
         #region Controller
-        public void UninitializeSensor()
-        {
-            _controller.RemoveListener(this);
-            _controller.Dispose();
-        }
+        //public void UninitializeSensor()
+        //{
+        //    _controller.RemoveListener(this);
+        //    _controller.Dispose();
+        //}
 
         public void UninitializeProcessor()
         {
@@ -75,7 +75,7 @@ namespace LeapGR
             try
             {
                 _controller = new Leap.Controller();
-                _controller.AddListener(this);
+                //_controller.AddListener(this);
             }
             catch (Exception ex)
             {

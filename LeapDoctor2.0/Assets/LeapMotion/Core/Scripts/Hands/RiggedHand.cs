@@ -13,11 +13,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Leap;
 using Leap.Unity.Attributes;
-using Leap.Unity.Animation.Internal;
 
 namespace Leap.Unity
 {
-    
     /** This version of HandModelBase supports a hand respresentation based on a skinned and jointed 3D model asset.*/
     public class RiggedHand : HandModel
     {
@@ -27,6 +25,11 @@ namespace Leap.Unity
             {
                 return ModelType.Graphics;
             }
+        }
+
+        public List<Transform> JointList
+        {
+            get { return jointList; }
         }
         public override bool SupportsEditorPersistence()
         {
@@ -90,8 +93,6 @@ namespace Leap.Unity
         private List<Quaternion> localRotations = new List<Quaternion>();
         [SerializeField]
         private List<Vector3> localPositions = new List<Vector3>();
-
-        public List<Transform> JointList { get { return jointList; } }
 
         public override void InitHand()
         {
