@@ -15,50 +15,54 @@ public class CreateCollider : MonoBehaviour
     List<Transform> localPos = new List<Transform>();
     List<Transform> virtualPos = new List<Transform>();
 
-    
+
     // Start is called before the first frame update
-    void Awake()
+    void Start()
+    {
+        GetVertualPos();
+        GetVirtualPos();
+        CreateRealColliders();
+        CreateVirtualColliders();
+    }
+    private void GetVertualPos()
     {
         HandMover[] haM = FindObjectsOfType<HandMover>();
-        for(int i = 0; i < haM.Length; i++)
+        for (int i = 0; i < haM.Length; i++)
         {
-            if(handedness == haM[i].getChirality())
+            if (handedness == haM[i].getChirality())
             {
                 virtualPos = haM[i].getLocalTransforms();
             }
         }
-        int counter = 0;
-        if(handedness == Chirality.Left)
-            localPos = GameObject.FindGameObjectWithTag("LeftHand").GetComponent<RiggedHand>().JointList;
+    }
+
+    private void GetVirtualPos()
+    {
+        if (handedness == Chirality.Left)
+            localPos = GameObject.FindGameObjectWithTag("RealHandLeft").GetComponent<RiggedHand>().JointList;
         else
-            localPos = GameObject.FindGameObjectWithTag("RightHand").GetComponent<RiggedHand>().JointList;
-        foreach(var pos in localPos)
+            localPos = GameObject.FindGameObjectWithTag("RealHandRight").GetComponent<RiggedHand>().JointList;
+    }
+
+    private void CreateRealColliders()
+    {
+        foreach (var pos in localPos)
         {
-            if (counter % 26 == 0)
-            {
-                counter++;
-                continue;
-            }
             var col = pos.gameObject.AddComponent<SphereCollider>();
-            var rig = pos.gameObject.AddComponent<Rigidbody>();
-            rig.isKinematic = true;
+            pos.gameObject.AddComponent<Rigidbody>().isKinematic = true;
             col.isTrigger = false;
             col.radius = realFingerRadius;
-            counter++;
         }
-        counter = 0;
-        foreach(var pos in virtualPos)
+    }
+
+    private void CreateVirtualColliders()
+    {
+        foreach (var pos in virtualPos)
         {
-            if (counter % 26 == 0)
-            {
-                counter++;
-                continue;
-            }
             pos.gameObject.AddComponent<CheckZone>();
             var col = pos.gameObject.AddComponent<SphereCollider>();
             col.isTrigger = true;
             col.radius = virtualFingerRadius;
-            counter++;
         }
     }
 }

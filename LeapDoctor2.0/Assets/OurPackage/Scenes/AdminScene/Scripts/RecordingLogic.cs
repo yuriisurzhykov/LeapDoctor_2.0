@@ -23,6 +23,7 @@ public class RecordingLogic : MonoBehaviour
     private bool isRecordingStart = false;
     private bool recording = false;
     private float countdownTime = 0f;
+    private bool namePresent = false;
 
     private void Awake()
     {
@@ -85,7 +86,7 @@ public class RecordingLogic : MonoBehaviour
     public void SaveGesture()
     {
         string fileName = GetFileName();
-        if(fileName != "")
+        if(fileName != "" && namePresent)
         {
             rightGetTrans.SaveGesture(fileName);
             leftGetTrans.SaveGesture(fileName);
@@ -95,6 +96,7 @@ public class RecordingLogic : MonoBehaviour
 
     private string GetFileName()
     {
+        Debug.Log(inputField.text + " Input field");
         return inputField.text;
     }
 
@@ -121,5 +123,9 @@ public class RecordingLogic : MonoBehaviour
         pauseButton.gameObject.SetActive(true);
         leftGetTrans.StartRecording();
         rightGetTrans.StartRecording();
+    }
+    public void SetName()
+    {
+        namePresent = true;
     }
 }

@@ -1,46 +1,52 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class CheckMatch : MonoBehaviour
 {
-    private CheckZone[] checkZone;
-    private bool isMatchWas = false;
-    private int check;
+    private CheckZone[] checkZones;
+    private LoadData loadData;
+    private SavedData savedData;
+    private List<Vector3> poses = new List<Vector3>();
+    private List<Quaternion> rots = new List<Quaternion>();
+    [SerializeField] private HandMover handMover;
+
     public static int thisHandCheck;
-    public bool getMatchWas
-    {
-        get { return isMatchWas; }
-    }
-    private int g;
     // Start is called before the first frame update
     void Start()
     {
-        check = 0;
-        checkZone = GetComponentsInChildren<CheckZone>();
-        Debug.Log(checkZone.Length);
+        handMover = gameObject.GetComponent<HandMover>();
+        savedData = new LoadData().getTransformByIndex(PlayerPrefs.GetInt("ChoosedGesture"), handMover.getChirality());
+        poses = savedData._handPosition;
+        rots = savedData._handRotation;
+        Debug.Log(poses.Count + " poses.Count");
+        checkZones = GetComponentsInChildren<CheckZone>();
+        handMover.SetNewTransforms(poses, rots);
     }
 
     // Update is called once per frame
     void Update()
     {
-        // if(checkZone.Length==2)
-
-        for (int i = 0; i < checkZone.Length; i++)
+        try
         {
-         //   Debug.log()
-            if (checkZone[i].getZoneCheck)
+            for (int i = 0; i < checkZones.Length; i++)
             {
-                isMatchWas =true;
-                continue;
-            }else
-            {
-                isMatchWas = false;
-                break;
+                if (checkZones[i].getZoneCheck)
+                {
+                    handMover.StartPlay();
+                    continue;
+                }
+                else
+                {
+                    handMover.StopPlay();
+                    break;
+                }
             }
         }
-        
-if (isMatchWas)
-            Debug.Log("true");
+        catch (NullReferenceException)
+        {
+            handMover = GetComponent<HandMover>();
+        }
     }
 }

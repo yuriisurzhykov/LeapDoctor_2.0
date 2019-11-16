@@ -13,25 +13,20 @@ public class HandMover : HandRecordingManager
 
     protected int curInxTransform = 0;
     protected SavedData dataTransform;
-    private CheckMatch checkMatch = null;
     private bool isPlaying = false;
     private bool isFirstCircule = false;
 
     // Start is called before the first frame update
     private void Awake()
     {
+        curInxTransform = 0;
         localTransform.AddRange(gameObject.GetComponentsInChildren<Transform>());
-        checkMatch = gameObject.GetComponent<CheckMatch>();
-        if(dataTransform != null)
-        {
-            getedPosition = dataTransform._handPosition;
-            getedRotation = dataTransform._handRotation;
-        }
     }
 
     // Update is called once per frame
     private void FixedUpdate()
     {
+        Debug.Log(getedPosition.Count + " getedPosCount");
         if(isPlaying)
             MoveHand();
     }
@@ -40,7 +35,6 @@ public class HandMover : HandRecordingManager
     {
         if (getedPosition.Count != 0 && getedRotation.Count != 0)
         {
-            Debug.Log("All is OK");
             for (int i = 0; i < localTransform.Count; i++)
             {
                 localTransform[i].position = new Vector3(getedPosition[curInxTransform].x, getedPosition[curInxTransform].y, getedPosition[curInxTransform].z - 0.05f);

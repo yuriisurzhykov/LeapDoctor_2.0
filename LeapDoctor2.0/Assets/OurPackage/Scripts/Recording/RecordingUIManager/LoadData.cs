@@ -30,7 +30,7 @@ public class LoadData
 
     public LoadData()
     {
-
+        listGesture = new ListGestureFiles();
     }
 
     public void Save(List<Vector3> loadedTransform, List<Quaternion> loadedRotation)
@@ -93,19 +93,18 @@ public class LoadData
         {
             SavedData savedDataC = Load(listGesture._allFileName[index] + chirality + ".json");
             return savedDataC;
-        } catch(IndexOutOfRangeException ex)
+        } catch(ArgumentOutOfRangeException)
         {
-            Debug.Log(ex);
             return new SavedData();
         }
     }
 
-    public SavedData Load(string neededFile)
+    private SavedData Load(string neededFile)
     {
         //Load saved Json
         string jsonData = PlayerPrefs.GetString(neededFile);
         if (jsonData == "")
-            return null;
+            return new SavedData();
         //Convert to Class
         SavedData loadedData = JsonUtility.FromJson<SavedData>(jsonData);
         return loadedData;

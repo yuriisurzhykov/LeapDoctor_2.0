@@ -4,12 +4,13 @@ using UnityEngine;
 using Leap.Unity;
 using UnityEngine.UI;
 using System;
+using UnityEngine.SceneManagement;
 
 public class LoadGesturesManager : MonoBehaviour
 {
     [SerializeField] private Dropdown dropdown;
-    [SerializeField] HandMover handMoverLeft;
-    [SerializeField] HandMover handMoverRight;
+    [SerializeField] private HandMover handMoverLeft;
+    [SerializeField] private HandMover handMoverRight;
 
 
     private LoadData loadData = null;
@@ -49,6 +50,8 @@ public class LoadGesturesManager : MonoBehaviour
             handMoverRight.SetNewTransforms(savedData._handPosition, savedData._handRotation);
             handMoverLeft.StartPlay();
             handMoverRight.StartPlay();
+            PlayerPrefs.SetInt("ChoosedGesture", dropdown.value);
+            SceneManager.LoadScene("ComplitingMovement");
         }
     }
 }

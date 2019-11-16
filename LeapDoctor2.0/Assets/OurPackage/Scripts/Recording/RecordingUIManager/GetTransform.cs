@@ -50,11 +50,14 @@ public class GetTransform : HandRecordingManager
 
     public void SaveGesture(string fileName)
     {
+        if (fileName != "" && !isRecording)
+            wasRecording = true;
         if (wasRecording)
         {
+            Debug.Log("Gesture saves right!");
             loadData = new LoadData(fileName, handedness);
             loadData.Save(recPos, recRot);
-            wasRecording = false;
+            wasRecording = false; 
         }
     }
 
@@ -72,8 +75,6 @@ public class GetTransform : HandRecordingManager
     public void StopRecording()
     {
         isRecording = false;
-        if (recordingHand.Count != 0)
-            wasRecording = true;
     }
 
     private void RecordMovement()
