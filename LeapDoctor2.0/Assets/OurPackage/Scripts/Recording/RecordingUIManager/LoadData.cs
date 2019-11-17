@@ -30,7 +30,8 @@ public class LoadData
 
     public LoadData()
     {
-        listGesture = new ListGestureFiles();
+        string allGestDownload = PlayerPrefs.GetString(allGesturesFileName);
+        listGesture = JsonUtility.FromJson<ListGestureFiles>(allGestDownload);
     }
 
     public void Save(List<Vector3> loadedTransform, List<Quaternion> loadedRotation)

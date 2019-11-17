@@ -139,8 +139,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handedness: 0
-  realFingerRadius: 0.1
-  virtualFingerRadius: 0.1
+  realFingerRadius: 0.05
+  virtualFingerRadius: 0.05
   palmRaduis: 0
 --- !u!114 &212775650
 MonoBehaviour:
@@ -277,8 +277,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handedness: 1
-  realFingerRadius: 0.1
-  virtualFingerRadius: 0.1
+  realFingerRadius: 0.05
+  virtualFingerRadius: 0.05
   palmRaduis: 0
 --- !u!114 &1094898972
 MonoBehaviour:

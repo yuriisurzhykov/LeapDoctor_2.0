@@ -39,7 +39,6 @@ public class LoadGesturesManager : MonoBehaviour
 
     public void LoadChoosedGesture()
     {
-        Debug.Log(dropdown.value);
         if(listGesture._allFileName[0] != "No items!")
         {
             handMoverLeft.StopPlay();
@@ -51,6 +50,7 @@ public class LoadGesturesManager : MonoBehaviour
             handMoverLeft.StartPlay();
             handMoverRight.StartPlay();
             PlayerPrefs.SetInt("ChoosedGesture", dropdown.value);
+            PlayerPrefs.Save();
             SceneManager.LoadScene("ComplitingMovement");
         }
     }

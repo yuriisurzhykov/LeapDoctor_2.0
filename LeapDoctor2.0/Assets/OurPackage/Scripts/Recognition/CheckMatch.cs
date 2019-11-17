@@ -17,6 +17,7 @@ public class CheckMatch : MonoBehaviour
     void Start()
     {
         handMover = gameObject.GetComponent<HandMover>();
+        Debug.Log(PlayerPrefs.GetInt("ChoosedGesture"));
         savedData = new LoadData().getTransformByIndex(PlayerPrefs.GetInt("ChoosedGesture"), handMover.getChirality());
         poses = savedData._handPosition;
         rots = savedData._handRotation;

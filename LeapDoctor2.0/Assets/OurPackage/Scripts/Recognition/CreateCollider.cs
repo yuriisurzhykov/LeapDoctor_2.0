@@ -31,6 +31,7 @@ public class CreateCollider : MonoBehaviour
         {
             if (handedness == haM[i].getChirality())
             {
+                Debug.Log(haM[i].getLocalTransforms().Count + "Local Trans: CreateCollider");
                 virtualPos = haM[i].getLocalTransforms();
             }
         }
@@ -39,9 +40,9 @@ public class CreateCollider : MonoBehaviour
     private void GetVirtualPos()
     {
         if (handedness == Chirality.Left)
-            localPos = GameObject.FindGameObjectWithTag("RealHandLeft").GetComponent<RiggedHand>().JointList;
+            localPos.AddRange(GameObject.FindGameObjectWithTag("RealHandLeft").GetComponentsInChildren<Transform>());
         else
-            localPos = GameObject.FindGameObjectWithTag("RealHandRight").GetComponent<RiggedHand>().JointList;
+            localPos.AddRange(GameObject.FindGameObjectWithTag("RealHandRight").GetComponentsInChildren<Transform>());
     }
 
     private void CreateRealColliders()
