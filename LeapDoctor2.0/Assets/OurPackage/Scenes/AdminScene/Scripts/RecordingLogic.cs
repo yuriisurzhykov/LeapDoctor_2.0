@@ -20,10 +20,15 @@ public class RecordingLogic : MonoBehaviour
     [SerializeField] GetTransform leftGetTrans;
     [SerializeField] GetTransform rightGetTrans;
 
+    //For Tests
+    [SerializeField] Text timeText;
+    //
+
     private bool isRecordingStart = false;
     private bool recording = false;
     private float countdownTime = 0f;
     private bool namePresent = false;
+    private float curTime;
 
     private void Awake()
     {
@@ -45,7 +50,12 @@ public class RecordingLogic : MonoBehaviour
         }
         if (recording)
         {
+            curTime += Time.deltaTime;
             Debug.Log("IsRecording");
+        }
+        else
+        {
+            timeText.text = curTime.ToString();
         }
     }
 
@@ -116,6 +126,7 @@ public class RecordingLogic : MonoBehaviour
         {
             return countdownTime <= 0f;
         });
+        curTime = 0f;
         recording = true;
         isRecordingStart = false;
         countdownPanel.SetActive(false);

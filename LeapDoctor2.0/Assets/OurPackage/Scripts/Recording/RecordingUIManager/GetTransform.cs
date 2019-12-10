@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Leap.Unity;
 
@@ -11,6 +10,9 @@ public class GetTransform : HandRecordingManager
 
     private List<Vector3> recPos = new List<Vector3>();
     private List<Quaternion> recRot = new List<Quaternion>();
+    private List<Vector3> deltaPos = new List<Vector3>();
+    private List<Quaternion> deltaRot = new List<Quaternion>();
+
     private bool wasRecording = false;
     private bool isRecording = false;
 
@@ -20,6 +22,11 @@ public class GetTransform : HandRecordingManager
     {
         InitComponents(handedness);
     }
+
+    //public GetTransform(Chirality handedness)
+    //{
+    //    InitComponents(handedness);
+    //}
 
     public void InitComponents(Chirality chirality)
     {
@@ -56,8 +63,8 @@ public class GetTransform : HandRecordingManager
         {
             Debug.Log("Gesture saves right!");
             loadData = new LoadData(fileName, handedness);
-            loadData.Save(recPos, recRot);
-            wasRecording = false; 
+            loadData.Save(recPos, recRot, deltaPos, deltaRot);
+            wasRecording = false;
         }
     }
 
@@ -75,6 +82,11 @@ public class GetTransform : HandRecordingManager
     public void StopRecording()
     {
         isRecording = false;
+        for (int i = 0; i < recPos.Count - recordingHand.Count; i++)
+        {
+            deltaPos.Add(LeapMath.LeapMath.CalculateDeltaV(recPos[i], recPos[i + recordingHand.Count]));
+            deltaRot.Add(LeapMath.LeapMath.CalculateDeltaQ(recRot[i], recRot[i + recordingHand.Count]));
+        }
     }
 
     private void RecordMovement()

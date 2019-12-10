@@ -49,10 +49,13 @@ public class CreateCollider : MonoBehaviour
     {
         foreach (var pos in localPos)
         {
-            var col = pos.gameObject.AddComponent<SphereCollider>();
-            pos.gameObject.AddComponent<Rigidbody>().isKinematic = true;
-            col.isTrigger = false;
-            col.radius = realFingerRadius;
+            if(pos.gameObject.tag != "Mesh" )
+            {
+                var col = pos.gameObject.AddComponent<SphereCollider>();
+                pos.gameObject.AddComponent<Rigidbody>().isKinematic = true;
+                col.isTrigger = false;
+                col.radius = realFingerRadius;
+            }
         }
     }
 
@@ -60,10 +63,22 @@ public class CreateCollider : MonoBehaviour
     {
         foreach (var pos in virtualPos)
         {
-            pos.gameObject.AddComponent<CheckZone>();
-            var col = pos.gameObject.AddComponent<SphereCollider>();
-            col.isTrigger = true;
-            col.radius = virtualFingerRadius;
+            if(pos.gameObject.tag != "Mesh" && pos.gameObject.tag != "FantomHandLeft" && pos.gameObject.tag != "FantomHandRight")
+            {
+                pos.gameObject.AddComponent<CheckZone>();
+                var col = pos.gameObject.AddComponent<SphereCollider>();
+                col.isTrigger = true;
+                col.radius = virtualFingerRadius;
+            }
+        }
+    }
+
+    private void Update()
+    {
+        foreach(var pos in virtualPos)
+        {
+            if (pos.gameObject.tag != "Mesh" && pos.gameObject.tag != gameObject.tag)
+                pos.GetComponent<SphereCollider>().radius = virtualFingerRadius;
         }
     }
 }

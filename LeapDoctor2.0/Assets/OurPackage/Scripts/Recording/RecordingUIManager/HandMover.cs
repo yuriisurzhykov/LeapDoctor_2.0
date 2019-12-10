@@ -44,7 +44,11 @@ public class HandMover : HandRecordingManager
             if (curInxTransform > getedPosition.Count - 1 || curInxTransform > getedRotation.Count - 1)
             {
                 isFirstCircule = false;
-                curInxTransform = 0;
+                curInxTransform = localTransform.Count;
+            }
+            else
+            {
+                isFirstCircule = true;
             }
         }
     }

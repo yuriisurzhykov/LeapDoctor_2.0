@@ -8,6 +8,7 @@ TagManager:
   - RealHandRight
   - FantomHandLeft
   - FantomHandRight
+  - Mesh
   layers:
   - Default
   - TransparentFX

@@ -12,19 +12,19 @@ public class LoadData
     private ListGestureFiles listGesture = new ListGestureFiles();
 
     private static string savedGesture = null;
-    private static bool thisGestureContets = false;
+    private static bool thisGestureContents = false;
 
     public LoadData(string pathName, Chirality chirality)
     {
         this.pathName = pathName + chirality.ToString() + ".json";
-        if (pathName != savedGesture)
+        if (pathName != savedGesture && pathName != chirality.ToString() + ".json")
         {
             savedGesture = pathName;
-            thisGestureContets = false;
+            thisGestureContents = false;
         }
         else
         {
-            thisGestureContets = true;
+            thisGestureContents = true;
         }
     }
 
@@ -34,20 +34,24 @@ public class LoadData
         listGesture = JsonUtility.FromJson<ListGestureFiles>(allGestDownload);
     }
 
-    public void Save(List<Vector3> loadedTransform, List<Quaternion> loadedRotation)
+    public void Save(List<Vector3> loadedTransform, List<Quaternion> loadedRotation,
+                     List<Vector3> deltaPoses, List<Quaternion> deltaRots)
     {
         //Save file with new Gesture
-        saveNewGesture(loadedTransform, loadedRotation);
+        saveNewGesture(loadedTransform, loadedRotation, deltaPoses, deltaRots);
 
         //If file with this gesture present in file with all gestures, then save it
         AddNewGestureFileName();
     }
 
-    private bool saveNewGesture(List<Vector3> loadedTransform, List<Quaternion> loadedRotation)
+    private bool saveNewGesture(List<Vector3> loadedTransform, List<Quaternion> loadedRotation,
+                                List<Vector3> deltaPoses, List<Quaternion> deltaRots)
     {
         SavedData saveData = new SavedData();
         saveData._handPosition = loadedTransform;
         saveData._handRotation = loadedRotation;
+        saveData._deltaPos = deltaPoses;
+        saveData._deltaRot = deltaRots;
 
         //Convert to Json
         string jsonData = JsonUtility.ToJson(saveData);
@@ -62,7 +66,7 @@ public class LoadData
 
     private bool AddNewGestureFileName()
     {
-        if (!thisGestureContets)
+        if (!thisGestureContents)
         {
             string allGestDownlod = PlayerPrefs.GetString(allGesturesFileName);
             if (allGestDownlod != "")
